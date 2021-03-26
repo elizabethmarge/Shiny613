@@ -54,7 +54,7 @@ moviesdataframe
 
 ```
 
-## Question 2 
+## Question 2a
 
 ```{r}
 
@@ -64,15 +64,55 @@ moviesdataframe
 ```
 
 
-## Question 3
+## Question 2B
 
 ```{r}
 
-gh_repo
+gh_repos
+
+
+## For each of the 6 Repos that are given when running the code command gh_repos, this gives to the viewer the raw data/information. This includes but is not limited to urls for notifications, pull requests, commits, profile id, homepage, and subscriptions.
 
 
 ```
 
+## Question 2C
 
+```{r}
+
+repos <- tibble(repo = gh_repos)
+repos
+
+## When you run the code, it transforms the nested list.One can see how this works by running the code below: 
+
+```
+
+```{r}
+
+repos%>%
+  select_if(is.list)
+
+## When running this code in conjunction with the previous code, this gives to the viewer the same exact answer. Both of the repos overall will add structure and improvement.
+
+```
+
+## 
+```{r}
+
+listviewer::jsonedit(gh_repos) 
+
+## When the listviewer representation is applied, this is the html widget for interactive views of R lists. Nested lists within R can be extremely difficult to represent. When using the command str, this does not do enough to represent the lists. So, this portion of htmlwidget helps us understand, see, or modify the nested lists. jsonedit() also creates a tree view of list items ( as one can see through the example given there is a complete system with drop-down arrows for moving between a collapsed and expanded view. The 30 represents [] and denotes arrays. They don't have the same meaning at all. The 68 represents a key/value pairs and denotes containers.  When in {} brackets, a key must be strings valid with JSON type as a string, number, object, array, null or Boolean. 
+
+```
+
+## 2E
+
+```{r}
+tibble(repo = gh_repos) %>%
+  unnest_auto(repo) %>%
+  unnest_auto(repo)
+
+
+```
 
 

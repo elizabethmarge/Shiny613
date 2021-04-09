@@ -1,0 +1,127 @@
+---
+title: "HW_613_8"
+author: "Elizabeth Marge"
+date: "4/7/2021"
+output: word_document
+---
+
+
+```{r}
+
+library(tidycensus)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+
+```
+
+
+
+## Question 1
+
+```{r}
+
+census_api_key("509e246745e2d25c36709ff998a2637b3805c8bf")
+
+install = TRUE
+
+```
+
+## Question 2
+
+```{r}
+
+v17 <- load_variables(2015, "acs5", cache = TRUE)
+
+View(v17)
+
+```
+
+```{r}
+
+CA <- get_acs(geography = "county", 
+              variables = c(medincome = "B01001A_011"), 
+              state = "CA", 
+              year = 2015)
+CA
+
+```
+
+## Part B 
+
+```{r}
+
+## b) Use a dplyr functions to change your table of part a so that it reflects estimates that are greater than $30,00 dollars and list the estimates in descending order.
+```
+
+```{r}
+
+mean(CA$estimate)
+
+max(CA$estimate)
+
+summary(CA$estimate)
+
+``` 
+
+```{r}
+
+CA %>%
+  filter(estimate > 30000)%>%
+  arrange(desc(estimate)) -> ca1
+ca1
+
+
+```
+  
+```{r}
+
+## c) Using the tibble that you produced in part b, use and show R code that will show the county that has a median income estimate of 51644 and a margin of error of 667.
+
+
+ca1%>%
+  filter(estimate == 51644 | moe == 667) 
+
+
+```
+
+
+```{r}
+
+
+## d) Use and show ggplot coding that will produce the following boxplot for the data that you generated for part b.
+
+```
+
+
+```{r}
+ggplot(data=ca1, mapping=aes(y=estimate)) + 
+  geom_boxplot(fill = "red")+
+  coord_flip()
+
+
+```
+
+
+
+```{r}
+
+
+## e) Use and show R code that will produce the following graph for the data generated in part b
+
+```
+
+
+
+```{r}
+
+ca1 %>%
+  mutate(NAME = gsub(" County, California", "", NAME)) %>%
+  ggplot(aes(x = estimate, y = reorder(NAME, estimate))) +
+  geom_errorbarh(aes(xmin = estimate - moe, xmax = estimate + moe)) +
+  geom_point(color = "blue", size = 2) +
+  labs(title = "Median Income for White Males by County",
+       subtitle = "2014-2018 American Community Survey",
+       y = "",
+       x = "ACS estimate (bars represent margin of error)")
+```

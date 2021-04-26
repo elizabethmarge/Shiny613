@@ -1,0 +1,105 @@
+---
+title: "HW8"
+author: "Elizabeth Marge"
+date: "3/27/2021"
+output: word_document
+---
+
+```{r}
+
+library(tidyverse) 
+library(dplyr) 
+library(data.table)
+
+
+```
+
+## 1A
+
+```{r}
+
+college1 <- fread("college_score.csv")
+college1
+
+```
+
+## 1B
+
+```{r}
+
+nrow(college1)
+
+
+```
+## 1C
+
+```{r}
+
+
+college2 <- read_csv("college_score.csv") # produces a tibble
+college2
+  
+class(college2)
+
+```
+
+
+## 2
+
+```{r}
+
+str(college1)
+
+```
+
+## 3 ??
+
+```{r}
+## DESCRIPTIVE AS YOU WANT TO BE BEFORE MEDIAN COMMAND, DURING COMMAND MUST BE VARIABLE NAME  
+
+college1[, .(Averagefacultysalary = median(AVGFACSAL, na = TRUE))]
+
+
+```
+
+
+## 4 
+
+```{r}
+
+## 4  For the college_score data, apply Tidyverse coding to change the levels of the variable ICLEVEL. In particular change 1 to OneYear, 2 to TwoYear, and 3 to ThreeYear. Select only variables INSTNM, SAT_AVG, ADM_RATE, and ICLEVEL.
+
+college2 %>%
+  select(INSTNM, SAT_AVG, ADM_RATE, ICLEVEL) %>%
+  mutate(ICLEVEL = recode(ICLEVEL, "1" = "OneYear", "2" = "TwoYear", "3" = "ThreeYear"))->
+  college_2
+college_2
+
+View(college_2)
+
+```
+
+
+## 5
+
+```{r}
+
+## The data.table representation of your data produced by the coding of #4 will show the first five rows and the last five rows of the data set.  Use R coding to change the output of #4 to data.table output.
+
+college_3 <- as.data.table(college_2)
+college_3
+
+
+```
+
+
+## 6
+
+```{r}
+
+## 6 Now use a data.table method to output observational rows of the original data set (550 - 555) inclusive.
+
+
+college1[c(550,551,552,553,554,555)]
+
+```

@@ -1,0 +1,74 @@
+---
+title: "Webscraping"
+author: "Elizabeth Marge"
+date: "3/17/2021"
+output: word_document
+---
+
+## Question 1 
+
+```{r}
+library(rvest)
+library(dplyr)
+library(tidyverse)
+library(repurrrsive)
+library(listviewer)
+
+```
+
+```{r}
+
+Link <- "https://www.imdb.com/best-of/highest-rated-movies-of-2019/ls091392448/"
+page = read_html(Link)
+MovieTitles2019 = page%>% 
+  html_nodes(".lister-item-header a")%>%
+  html_text()
+
+Movieratings2019 = page%>% 
+  html_nodes(".ratings-imdb-rating strong")%>%
+  html_text()
+
+moviesdataframe = data.frame(MovieTitles2019, Movieratings2019)
+moviesdataframe
+
+
+```
+
+## Question 2
+
+```{r}
+
+parse_number(Movieratings2019)
+
+```
+
+```{r}
+
+parse_number(Movieratings2019) -> y
+y
+
+
+```
+```{r}
+
+summary(y)
+
+## a) Min - 6.5
+## b) Max- 8.6
+## c) Q1- 7.075
+## d) Median - 7.300
+## e) Q3- 7.600
+## f) Mean 7.420
+
+
+```
+
+
+## Question 3
+
+```{r}
+
+boxplot(y)
+
+
+```

@@ -1,0 +1,96 @@
+---
+title: "Stats_Project_613"
+author: "Elizabeth Marge"
+date: "4/25/2021"
+output: word_document
+---
+
+```{r}
+
+## Reading into the csv 
+
+diet = read.csv("diet_1.csv")
+diet$weight.loss = diet$initial.weight - diet$final.weight 
+diet$gender      = factor(diet$gender,levels=c("Female","Male"))
+boxplot(weight.loss~diet.type,data=diet,col="light gray",
+        ylab = "Weight loss in participants (kg)", xlab = "Diet type")
+abline(h=0,col="red")
+
+
+```
+
+```{r}
+## Fisher
+## Welch
+## Diet Kruskal 
+
+diet.fisher  = aov(weight.loss~diet.type,data=diet)
+diet.welch   = oneway.test(weight.loss~diet.type,data=diet)
+diet.kruskal = kruskal.test(weight.loss~diet.type,data=diet)
+
+summary(diet.fisher)
+print(diet.welch)
+print(diet.kruskal)
+
+```
+
+```{r}
+## One-way Anova 
+
+summary(aov(weight.loss~diet.type,data=diet))
+
+```
+
+```{r}
+
+diet$diet.type   = factor(diet$diet.type,levels=c("1","2","3"))
+col_group = rainbow(nlevels(diet$diet.type))
+qqnorm(diet$weight.loss,col=col_group[as.numeric(diet$diet.type)])
+qqline(diet$weight.loss)
+legend("top",legend=levels(diet$diet.type),col=col_group,ncol=3,box.lwd=NA)
+
+
+```
+
+
+```{r}
+## Two-way t-tests 
+
+t.test(weight.loss~diet.type,data=diet[diet$diet.type!="1",],var.equal = TRUE)
+t.test(weight.loss~diet.type,data=diet[diet$diet.type!="2",],var.equal = TRUE)
+t.test(weight.loss~diet.type,data=diet[diet$diet.type!="3",],var.equal = TRUE)
+
+
+```
+
+
+```{r}
+
+## assigning mean and median 
+
+mean  = tapply(diet$weight.loss,diet$diet.type,mean)
+median = tapply(diet$weight.loss,diet$diet.type,median)
+mean
+median
+
+
+```
+
+```{r}
+
+## residual mean 
+## residuals median
+
+diet$residual.mean   = (diet$weight.loss - mean[as.numeric(diet$diet.type)])
+diet$residual.median = (diet$weight.loss - median[as.numeric(diet$diet.type)])
+diet[1:25,]
+
+
+```
+
+```{r}
+
+## shapiro test 
+
+shapiro.test(diet$residual.mean)
+```

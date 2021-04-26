@@ -1,0 +1,253 @@
+---
+title: "StatisticalProject_613"
+author: "Elizabeth Marge"
+date: "4/14/2021"
+output: word_document
+---
+
+```{r}
+
+library(tidyverse)
+library(ggplot2)
+
+
+```
+
+
+```{r}
+
+diets <- read_csv("diet_dataset.csv")
+diets
+
+```
+
+```{r}
+
+boxplot(diets$`Diet 1`,col="red",
+        ylab = "Weight loss (kg)", xlab = "Diet type")
+
+abline(h=0,col="blue")
+
+
+boxplot(diets$`Diet 2`,col="light gray",
+        ylab = "Weight loss (kg)", xlab = "Diet type")
+
+abline(h=0,col="blue")
+
+
+boxplot(diets$`Diet 3`,col="light gray",
+        ylab = "Weight loss (kg)", xlab = "Diet type")
+
+abline(h=2,col="blue")
+
+boxplot(diets,col="light gray",
+        ylab = "Weight loss (kg)", xlab = "Diet type")
+
+abline(h=0,col="blue")
+
+```
+
+
+## Histogram Diet 1
+
+```{r}
+
+hist(x = diets$`Diet 1`, col= "red", ylab = "Frequency of Weight loss (kg)", xlab = "Amount of Weight loss (kg)")
+
+
+
+```
+
+## Histogram Diet 2
+
+```{r}
+
+hist(x = diets$`Diet 2`, col= "orange",ylab = "Frequency of Weight loss (kg)", xlab = "Amount of Weight loss (kg)")
+
+
+
+```
+
+## Histogram Diet 3
+
+```{r}
+
+hist(x = diets$`Diet 3`, col= "blue",ylab = "Frequency of Weight loss (kg)", xlab = "Amount of Weight loss (kg)") 
+
+
+
+```
+## Summary 
+
+```{r}
+
+
+summary(diets)
+
+
+
+```
+
+
+```{r}
+
+anova_test<- anova(lm(diets))
+
+
+anova_test
+
+```
+
+
+```{r}
+summary(anova_test)
+```
+
+
+
+
+## Comparing Heights to Diet 1 
+
+```{r}
+
+lm_fit <- diets$`Height 1` ~ diets$`Diet 1`
+
+
+plot(lm_fit)
+
+
+
+abline(abline(h=165,col="red"))
+
+
+```
+
+
+```{r}
+
+sum_stat <- anova(lm(diets$`Height 1` ~ diets$`Diet 1`))
+
+sum_stat
+
+summary(sum_stat)
+
+
+```
+
+
+
+## Comparing Heights to Diet 2
+
+```{r}
+
+lm_fit2 <- diets$`Height 2` ~ diets$`Diet 2`
+
+plot(lm_fit2)
+  
+abline(abline(h=165,col="orange"))
+
+
+```
+
+```{r}
+
+sum_stat2 <-anova(lm(diets$`Height 2` ~ diets$`Diet 2`))
+
+sum_stat2
+
+summary(sum_stat2)
+
+```
+
+
+
+## Comparing Heights to Diet 3
+
+```{r}
+
+lm_fit3 <- diets$`Height 3` ~ diets$`Diet 3`
+
+plot(lm_fit3)
+  
+abline(abline(h=165,col="blue"))
+```
+
+
+```{r}
+
+sum_stat3 <- anova(lm(diets$`Height 3` ~ diets$`Diet 3`))
+sum_stat3
+summary(sum_stat3)
+
+```
+
+
+## Residuals 
+
+
+```{r}
+
+
+diet$resid.mean   = (diet$weight.loss - mean_group[as.numeric(diet$diet.type)])
+diet$resid.median = (diet$weight.loss - median_group[as.numeric(diet$diet.type)])
+diet[1:10,]
+
+
+
+```
+
+
+
+
+library(tidyverse)
+```{r}
+
+diet = read.csv("new.csv",row.names=1)
+diet$loss = diet$pre.weight - diet$weight6weeks
+
+type = factor(diet$type, levels = c("Type 1 ","Type 2 ","Type 3"))
+
+diet$gender      = factor(diet$gender,levels=c("Female","Male"))
+boxplot(loss~Diet,data=diet,col="light gray",
+        ylab = "Weight loss (kg)", xlab = "Diet type")
+abline(h=0,col="blue")
+       
+```
+
+
+
+```{r}
+
+
+diet.fisher  = aov(loss~Diet,data=diet)
+diet.welch   = oneway.test(loss~Diet,data=diet)
+diet.kruskal = kruskal.test(loss~Diet,data=diet)
+
+summary(diet.fisher)
+
+
+
+```
+
+```{r}
+
+
+print(diet.welch)
+print(diet.kruskal)
+
+```
+
+```{r}
+
+summary(aov(loss~Diet, data=diet[diet$Diet!="B",]))
+
+
+```
+
+
+```{r}
+
+t.test(weight.loss~diet.type,data=diet[diet$diet.type!="B",],var.equal = TRUE)
+```
+
+

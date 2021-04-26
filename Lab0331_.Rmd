@@ -1,0 +1,86 @@
+---
+title: "Lab_0331"
+author: "Elizabeth Marge"
+date: "3/31/2021"
+output: word_document
+---
+
+```{r}
+
+library(tidycensus)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+
+```
+
+
+## Question 1a
+```{r}
+
+census_api_key("509e246745e2d25c36709ff998a2637b3805c8bf")
+
+install = TRUE
+
+```
+
+## Question 1b
+
+```{r}
+
+age10 <- get_decennial(geography = "state", 
+                       variables = "P013001", 
+                       year = 2000)
+age10
+
+```
+## Question 1c
+
+```{r}
+
+mean(age10$value)
+
+max(age10$value)
+
+summary(age10$value)
+
+``` 
+
+
+
+## Question 2A
+
+```{r}
+
+
+age11 <- get_decennial(geography = "state", 
+                       variables = "P013H002", 
+                       year = 2010)
+age11
+
+```
+
+
+## Question 2b
+
+```{r}
+
+mean(age11$value)
+
+max(age11$value)
+
+summary(age11$value)
+
+``` 
+
+
+
+
+## Question 2c
+
+```{r}
+
+age11 %>%
+  filter(value>=
+ 25)
+```

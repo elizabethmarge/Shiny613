@@ -1,7 +1,2 @@
-# HW7
-# ShinyApp_613
-# ShinyApp_613
-# ShinyApp_613
-# ShinyApp_613
-# Shiny613
-# Shiny613
+# Shiny App 613 Project 
+# 
